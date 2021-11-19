@@ -85,7 +85,7 @@ const checkConfig = () => {
 const showFilters = () => {
   console.log("liste des filters : ");
   fs.readdirSync("./filters/").forEach((file) => {
-    console.log("- "+file);
+    console.log("- " + file);
   });
   console.log();
 };
@@ -102,26 +102,25 @@ const executeFilters = () => {
       let res;
 
       console.log("--------------------------");
-      console.log("Execution de "+steps[nextStep].filter);
+      console.log("Execution de " + steps[nextStep].filter);
       console.log("--------------------------");
 
       try {
-
-        if(previousParams) {
+        if (previousParams) {
           if (steps[nextStep].hasOwnProperty("params")) {
             res = fc(Array(previousParams).concat(steps[nextStep].params));
           } else {
-            res = fc(previousParams);
+            res = fc(Array(previousParams));
           }
         } else {
           res = fc(steps[nextStep].params);
         }
-
-      }catch(e) {
-        console.error(`L'execution de la step ${steps[nextStep].filter} a échoué : `);
+      } catch (e) {
+        console.error(
+          `L'execution de la step ${steps[nextStep].filter} a échoué : `
+        );
         console.error(e);
       }
-     
 
       console.log();
 
@@ -130,9 +129,7 @@ const executeFilters = () => {
       }
     };
 
-    goToNextFilter(
-      Object.keys(steps)[0]
-    );
+    goToNextFilter(Object.keys(steps)[0]);
   });
 };
 

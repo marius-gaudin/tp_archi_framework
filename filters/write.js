@@ -7,4 +7,5 @@ module.exports = (input) => {
     if (err) return console.log(err);
     console.log(path + " > " + text);
   });
+  console.log("Fichier crée ! ");
 };

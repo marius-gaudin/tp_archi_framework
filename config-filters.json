@@ -2,21 +2,26 @@
     "steps" : 
             {    "0": {
                         "filter": "read",
-                        "params" : ["Filter 1"], 
+                        "params" : ["./content.txt"], 
                         "next": "1"
                         },
         
                 "1": {
-                        "filter": "filter_1",
-                        "params" : ["Filter 1"], 
+                        "filter": "capitalize", 
                         "next": "2"
                         }
                 , 
                 
                 "2": {
-                        "filter": "filter_2",
-                        "params" : ["Filter 2"]
+                        "filter": "reverse",
+                        "next": "3"
+                        
                     }
+                    ,
+                "3": {
+                        "filter": "write",
+                        "params": ["./newcontent.txt"]
+                 }
                
             }
 }
