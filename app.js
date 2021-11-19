@@ -104,15 +104,24 @@ const executeFilters = () => {
       console.log("--------------------------");
       console.log("Execution de "+steps[nextStep].filter);
       console.log("--------------------------");
-      if(previousParams) {
-        if (steps[nextStep].hasOwnProperty("params")) {
-          res = fc(Array(previousParams).concat(steps[nextStep].params));
+
+      try {
+
+        if(previousParams) {
+          if (steps[nextStep].hasOwnProperty("params")) {
+            res = fc(Array(previousParams).concat(steps[nextStep].params));
+          } else {
+            res = fc(previousParams);
+          }
         } else {
-          res = fc(previousParams);
+          res = fc(steps[nextStep].params);
         }
-      } else {
-        res = fc(steps[nextStep].params);
+
+      }catch(e) {
+        console.error(`L'execution de la step ${steps[nextStep].filter} a échoué : `);
+        console.error(e);
       }
+     
 
       console.log();
 
