@@ -1,0 +1,10 @@
+{
+"steps" : {
+"1": {
+"filter": "<filter_1>",
+"params" : ["" ,"" , ""], "next": "2"
+}, "2": {
+"filter": "<filter_2>",
+"params" : ["" , "" , ""], "next": "3"
+}
+}}
