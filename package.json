@@ -1,0 +1,22 @@
+{
+  "name": "framework_marius_yessi",
+  "version": "1.0.0",
+  "description": "litte node js framework",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marius-gaudin/tp_archi_framework.git"
+  },
+  "author": "Marius Gaudin, Yessi Munguengui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marius-gaudin/tp_archi_framework/issues"
+  },
+  "homepage": "https://github.com/marius-gaudin/tp_archi_framework#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
