@@ -1,5 +1,5 @@
-## tp_archi_framework
+# tp_archi_framework
 
-# Membres
+## DEV
 * YESSI-Y-MUNGUENGUI Yessi
 * GAUDIN Marius
