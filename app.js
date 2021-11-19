@@ -1,17 +1,37 @@
-const express = require("express");
-const app = express();
 var fs = require("fs");
-var path = require("path");
-
-app.listen(3000, () => {
-  console.log("Server up and running on port 3000");
-});
 
 const start = () => {
-  console.log("filters : ");
-  fs.readdirSync("./filters/").forEach((file) => {
-    console.log(file);
-  });
+
+  if(checkFilters()) {
+    console.log("filters : ");
+    fs.readdirSync("./filters/").forEach((file) => {
+      console.log(file);
+    });
+  }
+  
 };
+
+const checkFilters = () => {
+  let isValid = true;
+  fs.readdirSync("./filters/").forEach((file) => {
+
+    let fc = require(`./filters/${file}`);
+
+    if (typeof fc != "function") {
+      console.error(`Le module du filtre "${file}" doit renvoyer une fonction`);
+      isValid = false;
+      return false;
+    }
+     
+    if (fc.length != 1) {
+      console.error(`La fonction du filtre "${file}" doit contenir un seul argument input`);
+      isValid = false;
+      return false;
+    }
+     
+  });
+
+  return isValid;
+}
 
 start();
