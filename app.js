@@ -4,6 +4,7 @@ const start = () => {
   if (checkFilters()) {
     showFilters();
     if (checkConfig()) {
+      executeFilters();
     }
   }
 };
@@ -82,10 +83,11 @@ const checkConfig = () => {
 };
 
 const showFilters = () => {
-  console.log("filters : ");
+  console.log("liste des filters : ");
   fs.readdirSync("./filters/").forEach((file) => {
-    console.log(file);
+    console.log("- "+file);
   });
+  console.log();
 };
 
 //  Exécute les filters dans l’ordre défini dans le fichier de configuration par le développeur
@@ -97,31 +99,32 @@ const executeFilters = () => {
     let steps = JSON.parse(data).steps;
     const goToNextFilter = (nextStep, previousParams) => {
       let fc = require("./filters/" + steps[nextStep].filter + ".js");
-      if (steps[nextStep].hasProperty("params")) {
-        let res = fc(previousParams.concat(steps[nextStep].params));
+      let res;
+
+      console.log("--------------------------");
+      console.log("Execution de "+steps[nextStep].filter);
+      console.log("--------------------------");
+      if(previousParams) {
+        if (steps[nextStep].hasOwnProperty("params")) {
+          res = fc(Array(previousParams).concat(steps[nextStep].params));
+        } else {
+          res = fc(previousParams);
+        }
       } else {
-        let res = fc(previousParams);
+        res = fc(steps[nextStep].params);
       }
-      if (steps[nextStep].hasProperty("next")) {
+
+      console.log();
+
+      if (steps[nextStep].hasOwnProperty("next")) {
         goToNextFilter(steps[nextStep].next, res);
       }
     };
+
     goToNextFilter(
-      steps[Object.keys(steps)[0]].next,
-      steps[Object.keys(steps)[0]].params
+      Object.keys(steps)[0]
     );
   });
 };
 
-const sortObjectValues = (array, index) => {
-  let sortArray = [];
-  for (var item in array) {
-    sortArray.push([item, array[item]]);
-  }
-
-  sortArray.sort(function (a, b) {
-    return a[index] - b[index];
-  });
-  return sortArray;
-};
 start();
