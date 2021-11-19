@@ -1,4 +1,5 @@
-var fs = require("fs");
+const fs = require("fs");
+const chalk = require("chalk");
 
 const start = () => {
   if (checkFilters()) {
@@ -9,23 +10,20 @@ const start = () => {
   }
 };
 
-// Vérifie que la signature de chaque filter placé dans le dossier /filters est valide (que le
-//   module retourne bien une fonction
+// Vérifie que la signature de chaque filter placé dans le dossier /filters est valide (que le module retourne bien une fonction)
 const checkFilters = () => {
   let isValid = true;
   fs.readdirSync("./filters/").forEach((file) => {
     let fc = require(`./filters/${file}`);
 
     if (typeof fc != "function") {
-      console.error(`Le module du filtre "${file}" doit renvoyer une fonction`);
+      console.error(chalk.red.bold(`\nLe module du filtre "${file}" doit renvoyer une fonction`));
       isValid = false;
       return false;
     }
 
     if (fc.length != 1) {
-      console.error(
-        `La fonction du filtre "${file}" doit contenir un seul argument input`
-      );
+      console.error(chalk.red.bold(`\nLa fonction du filtre "${file}" doit contenir un seul argument input`));
       isValid = false;
       return false;
     }
@@ -34,6 +32,7 @@ const checkFilters = () => {
   return isValid;
 };
 
+//Vérifie que le fichier config-filters est correct
 const checkConfig = () => {
   try {
     let ficConfig = fs.readFileSync("config-filters.json");
@@ -70,11 +69,11 @@ const checkConfig = () => {
   } catch (e) {
     if (e.code == "ENOENT") {
       console.error(
-        "Le fichier config-filters.json n'existe pas ! il faut obligatoirement le définir"
+        chalk.red.bold("\nLe fichier config-filters.json n'existe pas ! il faut obligatoirement le définir")
       );
     } else {
       console.error(
-        "Un problème est survenu dans le fichier config-filters.json : "
+        chalk.red.bold("\nUn problème est survenu dans le fichier config-filters.json : ")
       );
       console.error(e);
     }
@@ -94,7 +93,8 @@ const showFilters = () => {
 const executeFilters = () => {
   fs.readFile("./config-filters.json", "utf8", function read(err, data) {
     if (err) {
-      throw err;
+      console.error(chalk.red.bold("\nUne Erreur est survenu lié à la lecture du fichier !"))
+      console.error(err);
     }
     let steps = JSON.parse(data).steps;
     const goToNextFilter = (nextStep, previousParams) => {
@@ -116,9 +116,7 @@ const executeFilters = () => {
           res = fc(steps[nextStep].params);
         }
       } catch (e) {
-        console.error(
-          `L'execution de la step ${steps[nextStep].filter} a échoué : `
-        );
+        console.error(chalk.red.bold(`\nL'execution de la step "${steps[nextStep].filter}" a échoué : `));
         console.error(e);
       }
 

@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/marius-gaudin/tp_archi_framework#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "chalk": "^4.1.2"
   }
 }
